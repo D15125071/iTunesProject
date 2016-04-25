@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Import</title>
+
+<script type="text/javascript" src="plugins/jquery.js"></script>
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body class='indexPage'>
+	
+	<br>
+	<br>
+	<br>
+
+	<div class="login-card">
+
+
+		<form role="form" id="login">
+			<label>Select XML file location:</label> 
+			<div style="color: red;"id="msgbox"></div>
+			<br>
+			<input id="formInput" type="file">
+			<br>
+			<br>
+			<input type="submit" id="Login-btn" class="login login-submit" value="Login">
+		</form>
+	</div>
+
+	<script>
+
+		$("#login").submit(function Login(){
+			var url = document.getElementById("formInput").value;
+			var obj1 = new obj(url, 'window.sessionStorage.getItem("username")', "", "");
+			$.ajax({
+				async : false,
+				type : 'POST',
+				url : 'rest/upload/xml',
+				data : JSON.stringify(obj1),
+				success : function message(data) {
+					alert(data);
+				},
+				contentType : 'application/json'
+			});
+			return false;
+		});
+			 
+		function obj(option1, option2, option3, option4) { 
+			this.option1 = option1; 
+			this.option2 = option2; 
+			this.option3 = option3; 
+			this.option4 = option4; 
+		} 
+
+				
+	</script>
+</body>
+
+</html>

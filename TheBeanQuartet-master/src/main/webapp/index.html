@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Login</title>
+
+<script type="text/javascript" language="javascript"
+	src="plugins/jquery.js"></script>
+<script type="text/javascript" language="javascript" class="init"></script>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+<body class='indexPage'>
+	
+	<br>
+	<br>
+	<br>
+
+	<div class="login-card">
+		<div align="center">
+			<img id='img' src="itunes-icon.png" alt="EricssonLogo"
+				style="width: 140px; height: 140px;">
+		</div>
+
+		<form role="form" id="login">
+		
+			<div style="color: red;"id="msgbox"></div>
+			<br>
+			<div id="details">
+			<input type="text" name="user" placeholder="Username" id="username">
+			<input type="password" name="pass" placeholder="Password" id="password">
+			</div> 
+			<input type="password" name="pass" placeholder="Retype Password" id="re_enter_password" style="display: none;">
+			 
+			<input type="submit" id="Login-btn" class="login login-submit" value="Login">
+			<a id="registerUser" onclick="RegisterUser()" href="#">
+			<font size="3" color="black">Click here to Register!</font>
+			</a>
+		</form>
+	</div>
+
+	<script>
+
+		var url="rest/lib/user/verify";
+		var registering = false;
+	
+	    $("#details").click(function(){
+	        $("#msgbox").fadeOut(function(){
+	        		$(this).text('').fadeIn();
+	        });
+	    });
+	    
+	    function RegisterUser(){
+	        $("#re_enter_password").show("slow");
+	        $("#registerUser").hide("slow");
+	        document.getElementById("Login-btn").value="Register";
+	        url = "rest/lib/user/register";
+	        registering = true;
+	    }
+
+	    
+		function SysUser(user_name, user_password) {
+			this.user_name = user_name;
+			this.user_password = user_password;
+		}
+		$("#login").submit(function Login(){
+			var checkUser = new SysUser(
+				document.getElementById("username").value,
+				document.getElementById("password").value
+			);
+			if(document.getElementById("password").value != document.getElementById("re_enter_password").value)
+		        $("#msgbox").fadeOut(function(){
+	        		$(this).text('Sorry, password match incorrect. Please try again.').fadeIn();
+	    		});
+			window.sessionStorage.setItem("username", "default");
+			$.ajax({
+				async : false,
+				type : 'POST',
+				url : url,
+				data : JSON.stringify(checkUser),
+				success : function islogin(data) {
+					if(registering==false){
+						if (data != "false") {
+							window.sessionStorage.setItem("username", "Adajio_");
+							document.location='main_page.html';
+						}
+						if (data=="false")
+					        $("#msgbox").fadeOut(function(){
+				        		$(this).text('Sorry, your username and password are incorrect. Please try again.').fadeIn();
+				    		});
+					}
+					else{
+						alert(data);
+						document.location="index.html";
+					}
+				},
+				contentType : 'application/json'
+			});
+			
+			return false;
+		});
+				
+	</script>
+</body>
+
+</html>

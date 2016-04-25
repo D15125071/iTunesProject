@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Track Table</title>
+
+<link type="text/css" href="css/bootstrap.css" rel="stylesheet">
+<script type="text/javascript" src="plugins/jquery.js"></script>
+<script type="text/javascript" src="plugins/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="css/style.css">
+
+<link href="select2/select2.css" rel="stylesheet"/>   
+<link href="select2/s2-docs.css" rel="stylesheet"/>     
+<link href="select2/select2.min.css" rel="stylesheet"/>       
+<script type="text/javascript" src="select2/select2.js"></script>
+<script type="text/javascript" src="select2/select2.full.js"></script> 
+
+<link rel="stylesheet" type="text/css" href="css/jquery.dataTables.css">
+<script type="text/javascript" src="plugins/jquery.dataTables.js"></script>
+<script type="text/javascript" src="plugins/moment.min.js"></script>
+
+
+</head>
+<body>
+
+	<div class='indexPagee'>
+	<br>
+	<br>
+	<br>
+	<div class="login-card">
+		<form role="form" id="details">
+			<div id="playlist-list1">
+				<label>Select Playlist:</label> <br> <select
+					id="playlist1-dropdown" tabindex="-1"
+					class="js-example-basic-single form-control"
+					onchange="">
+					<option value="listAll">View all tracks...</option>
+				</select> 
+			</div>
+			<br>
+			<!-- 
+			<div id="track-list1">
+				<label>Select Track from above Playlist:</label> <br> <select
+					id="track-dropdown" tabindex="-1"
+					class="js-example-basic-single form-control">
+					<option>Track</option>
+					<option>Track</option>
+					<option>Track</option>
+					<option>Track</option>
+				</select> 
+			</div>
+			<br>
+			-->
+			<input type="submit" class="login login-submit" value="Submit">
+		</form>
+	  	<a onclick="Help()" href="#">help</a> 
+	</div>
+	<br>
+	<br>
+	</div>
+	<div align="center" class="card3">
+		<table id="myTable" class="table table-striped table-bordered" width="99%" cellspacing="0" >
+			<thead>
+				<tr>
+					<th>Track Id</th>
+					<th>Name</th>
+					<th>Artist</th>
+					<th>Album</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+
+	<script>
+	$(document).ready(function() {
+		$(".js-example-basic-single").select2();
+	});
+	$('#myTable').DataTable( {
+		"language": {
+			"emptyTable": "No data to display"
+		}
+	} );
+
+	function obj(option1, option2, option3, option4) {
+		this.option1 = option1;
+		this.option2 = option2;
+		this.option3 = option3;
+		this.option4 = option4;
+	}
+
+
+	var $playlist1_dropdown = $('#playlist1-dropdown');
+	var $track_dropdown = $('#track-dropdown');
+	/*When playlist from playlist1 dropown is selected, this function is called
+		it will populate the track drop down with tracks from selected playlist
+	*/
+	/*
+	function updateTrackDropdown(playlist){
+		var playlistID = playlist.value;
+		var urlAddress = "rest/lib/track/list";//to be confirmed
+		alert("updating track list");
+		
+		$.ajax({
+				async : false,
+				type : 'POST',
+				url : urlAddress,
+				data : JSON.stringify(playlist),
+				success : function message(data) {
+				$track_dropdown.html('');
+				$.each(data.sysUserCollection, function (index, value) {
+			    	   $track_dropdown.append('<option value='+value.id+'>' + value.id + '</option>');
+			   });
+			}
+		});
+	}
+	*/
+	
+	$.ajax({
+		async : false,
+		type : 'GET',
+		url : 'rest/lib/playlist/list',
+		success : function message(data) {
+			$playlist1_dropdown.html('');
+			$.each(data.playlistCollection, function (index, value) {
+		      	$playlist1_dropdown.append('<option>' + value.playlist_id + '</option>');
+		   	});
+		}
+	});
+	
+	$("#details").submit(
+		function getTracks() {
+
+			var url = "rest/lib/playlist/tracks";
+			var obj1 = new obj(
+				document.getElementById("playlist1-dropdown").value, //id
+				"", 
+				"",
+				""
+			);
+			$.ajax({
+				async: false,
+				type : 'POST',
+				url : url,
+				contentType : 'application/json',
+				data:JSON.stringify(obj1),
+				success : function output(jdata) {
+					var table = $('#myTable').dataTable();
+					table.fnClearTable();
+					$.each(jdata.trackCollection, function(index, value) {
+			            table.dataTable().fnAddData([
+			                JSON.stringify(value.track_id),
+			                JSON.stringify(value.track_name),
+			                JSON.stringify(value.track_artist),
+			                JSON.stringify(value.track_album)
+			            ]);
+				    });
+				}
+			});
+			return false;
+	});
+	var help="";	
+	function Help(){
+		alert(help);
+	}
+	</script>
+</body>
+</html>
