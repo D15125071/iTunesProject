@@ -182,6 +182,16 @@ public class MainRestService {
 		System.out.println("playlist_id: "+playlist_id);
 		return service.deletePlaylist(playlist_id);
 	}
+	@POST
+	@Produces(MediaType.TEXT_PLAIN)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/track/move")
+	public String moveTrack(Options opt){
+		int from_playlist_id = Integer.parseInt(opt.getOption1());
+		int track_id = Integer.parseInt(opt.getOption2());
+		int to_playlist_id = Integer.parseInt(opt.getOption3());
+		return service.moveTrack(from_playlist_id, track_id, to_playlist_id);
+	}
 	
 
 }

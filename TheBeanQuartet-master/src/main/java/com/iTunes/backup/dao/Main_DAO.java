@@ -27,4 +27,6 @@ public interface Main_DAO {
 	String deleteTrack(int playlist_id, int track_id);
 
 	String deletePlaylist(int playlist_id);
+
+	String moveTrack(int from_playlist_id, int track_id, int to_playlist_id);
 }

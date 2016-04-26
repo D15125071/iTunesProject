@@ -69,7 +69,7 @@ public class XmlParseRestService {
 		
 		
 		try {
-			tracks = JAXBXMLHandler.unmarshalTracks(new File("C:/Users/Ivan/Desktop/iTunes_Music_Library3.xml"));
+			tracks = JAXBXMLHandler.unmarshalTracks(new File(filePath));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -108,7 +108,7 @@ public class XmlParseRestService {
 		Playlist_plist playlists = new Playlist_plist();
 		
 		try {
-			playlists = JAXBXMLHandler.unmarshalPlaylist(new File("C:/Users/Ivan/Desktop/iTunes_Music_Library3.xml"));
+			playlists = JAXBXMLHandler.unmarshalPlaylist(new File(filePath));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

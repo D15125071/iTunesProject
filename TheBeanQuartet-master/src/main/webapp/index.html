@@ -74,7 +74,6 @@
 		        $("#msgbox").fadeOut(function(){
 	        		$(this).text('Sorry, password match incorrect. Please try again.').fadeIn();
 	    		});
-			window.sessionStorage.setItem("username", "default");
 			$.ajax({
 				async : false,
 				type : 'POST',
@@ -83,7 +82,7 @@
 				success : function islogin(data) {
 					if(registering==false){
 						if (data != "false") {
-							window.sessionStorage.setItem("username", "Adajio_");
+							window.sessionStorage.setItem("username", document.getElementById("username").value);
 							document.location='main_page.html';
 						}
 						if (data=="false")

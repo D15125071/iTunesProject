@@ -31,8 +31,8 @@
 				<label>Select Option:</label> 
 				<br> 
 				<select id="userOption" class="form-control" onchange="changeOption(this);">
-					<option value="playlistName">Edit Playlist Name</option>
 					<option value="moveTrack">Move Track</option>
+					<option value="playlistName">Edit Playlist Name</option>	
 					<option value="deletePlaylist">Delete Playlist</option>
 					<option value="deleteTrack">Delete Track from Playlist</option>
 				</select>
@@ -48,14 +48,14 @@
 					onchange="updateTrackDropdown(this);">
 				</select> 
 			</div>
-			<div id="track-list1" style="display: none;">
+			<div id="track-list1">
 				<label>Select Track from above Playlist:</label> <br> <select
 					id="track-dropdown" tabindex="-1"
 					class="js-example-basic-single form-control">
 				</select> 
-			</div>
-			<div id="playlist-list2" style="display: none;">
-				<label>Select Playlist to move Track to:</label> <br> <select
+			</div><!-- style="display: none;" -->
+			<div id="playlist-list2" >
+				<label>Select PlayList to move Track to:</label> <br> <select
 					id="playlist2-dropdown" tabindex="-1"
 					class="js-example-basic-single form-control">
 				</select> 
@@ -77,7 +77,7 @@
 		$(".js-example-basic-single").select2();
 	});
 	
-	var optionAnswer="playlistName";
+	var optionAnswer="moveTrack";
 	function changeOption(opt){
 		if(opt.value == "playlistName"){
 	        $("#playlist-name").show("slow");
@@ -143,7 +143,7 @@
 			data:JSON.stringify(obj1),
 			success : function output(jdata) {
 				$.each(jdata.trackCollection, function(index, value) {
-					$track_dropdown.append('<option value='+value.track_id+'>'+value.track_id+'</option>');
+					$track_dropdown.append('<option value='+value.track_id+'>'+value.track_id+', '+value.track_name+'</option>');
 			    });
 			},
 			error : function (error){
@@ -159,8 +159,8 @@
 			$playlist1_dropdown.html('');
 			$playlist2_dropdown.html('');
 			$.each(data.playlistCollection, function (index, value) {
-		      	$playlist1_dropdown.append('<option>' + value.playlist_id + '</option>');
-		      	$playlist2_dropdown.append('<option>' + value.playlist_id + '</option>');
+		      	$playlist1_dropdown.append('<option value='+value.playlist_id+'>' + value.playlist_id +', '+value.playlist_name+ '</option>');
+		      	$playlist2_dropdown.append('<option value='+value.playlist_id+'>' + value.playlist_id +', '+value.playlist_name+ '</option>');
 		   	});
 		}
 	});
@@ -171,7 +171,7 @@
 			var url = "";
 			
 			if(optionAnswer == "moveTrack"){
-				url = "rest/lib/move_track";
+				url = "rest/lib/track/move";
 				var obj1 = new obj(
 					document.getElementById("playlist1-dropdown").value, //id
 					document.getElementById("track-dropdown").value, //id

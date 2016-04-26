@@ -41,4 +41,6 @@ public interface Service {
 
 	public String deletePlaylist(int playlist_id);
 
+	public String moveTrack(int from_playlist_id, int track_id, int to_playlist_id);
+
 }

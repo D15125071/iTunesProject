@@ -64,16 +64,9 @@ public class Main_JPA implements Main_DAO{
 
 	@Override
 	public String setPlaylistName(int id, String name) {
-		
 		Query query = em.createQuery("update Playlist_Track_Link set playlist.playlist_name = :name where playlist_id = :id");
 		query.setParameter("name", name);
 		query.setParameter("id", id);
-
-//		Query query2 = em.createQuery("select d.playlist from Playlist_Track_Link d where d.playlist_id = :id");
-//		query2.setParameter("id", id);
-//		List<Playlist> data = query2.getResultList();
-//		System.out.println("Playlist Name: "+data.get(0).getPlaylist_name());
-		
 		Playlist playlist = em.find(Playlist.class, id);
 		playlist.setPlaylist_name(name); 
 		em.merge(playlist); 
@@ -85,35 +78,30 @@ public class Main_JPA implements Main_DAO{
 		String id = track_id +""+playlist_id+"";
 		Playlist_Track_Link p = em.find(Playlist_Track_Link.class, id); 
 		em.remove(p); 
-		/*
-		Query query = em.createQuery(""
-				+ "delete from Playlist_Track_Link p "
-				+ "where p.playlist_id = :p_id "
-				+ "AND p.track_id = :t_id");
-		query.setParameter("p_id", playlist_id);
-		query.setParameter("t_id", track_id);
-		*/
-		
 		return "Track Deleted";
-		
-
-
 	}
 
 	@Override
 	public String deletePlaylist(int playlist_id) {
-		/*
-		System.out.println("time: 14.115252332323323");
-		Playlist p = em.find(Playlist.class, playlist_id);
-		System.out.println(p.getPlaylist_name());
-		em.remove(p);
-		*/
-
-		
 		Playlist p = em.find(Playlist.class, playlist_id); 
 		em.remove(p);
-		
 		return "Playlist Deleted";
+	}
+
+	@Override
+	public String moveTrack(int from_playlist_id, int track_id, int to_playlist_id) {
+		//remove playList track link
+		String id = track_id +""+from_playlist_id+"";
+		Playlist_Track_Link pt = em.find(Playlist_Track_Link.class, id); 
+		em.remove(pt); 
+		
+		//create new playList track link
+		Playlist p = em.find(Playlist.class, to_playlist_id);
+		Track t = em.find(Track.class, track_id);
+		Playlist_Track_Link playlist_track = new Playlist_Track_Link(p,t);
+		em.persist(playlist_track);
+		
+		return "Track moved";
 	}
 
 

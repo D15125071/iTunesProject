@@ -91,4 +91,8 @@ public class ServiceEJB implements Service{
 		// TODO Auto-generated method stub
 		return mainDao.deletePlaylist(playlist_id);
 	}
+	@Override
+	public String moveTrack(int from_playlist_id, int track_id, int to_playlist_id) {
+		return mainDao.moveTrack(from_playlist_id, track_id, to_playlist_id);
+	}
 }

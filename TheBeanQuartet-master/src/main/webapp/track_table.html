@@ -125,7 +125,7 @@
 		success : function message(data) {
 			$playlist1_dropdown.html('');
 			$.each(data.playlistCollection, function (index, value) {
-		      	$playlist1_dropdown.append('<option>' + value.playlist_id + '</option>');
+				$playlist1_dropdown.append('<option value='+value.playlist_id+'>' + value.playlist_id +', '+value.playlist_name+ '</option>');
 		   	});
 		}
 	});
