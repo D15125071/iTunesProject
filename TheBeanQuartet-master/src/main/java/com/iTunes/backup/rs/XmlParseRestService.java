@@ -48,7 +48,7 @@ public class XmlParseRestService {
 		System.out.println(opt.getOption1());
 		System.out.println(opt.getOption2());
 		System.out.println("**************** parsing xml");
-		System.out.println("Try version 1: time: 13.15");
+		System.out.println("Try version 1: time: 00.32");
 		
 		String filePath = opt.getOption1();
 		
@@ -74,7 +74,7 @@ public class XmlParseRestService {
 			e.printStackTrace();
 		}
 		int numberTracks = tracks.getTracksPlaylist().getRoot().getTrackList().size();
-		System.out.println("number of tracks: "+numberTracks);
+//		System.out.println("number of tracks: "+numberTracks);
 
 		for(int i=0; i<numberTracks; i++){
 			
@@ -89,13 +89,26 @@ public class XmlParseRestService {
 					newTrack.setTrack_id(Integer.parseInt(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent()));
 				}
 				if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x).getTextContent().equals("Name")){
-					newTrack.setTrack_name(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
+					
+					if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent().length()<100){
+						newTrack.setTrack_name(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
+					}
+					else
+						newTrack.setTrack_name("[sring too large]");
 				}
 				if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x).getTextContent().equals("Artist")){
-					newTrack.setTrack_artist(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
+					if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent().length()<100){
+						newTrack.setTrack_artist(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
+					}
+					else
+						newTrack.setTrack_artist("[sring too large]");
 				}
 				if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x).getTextContent().equals("Album")){
-					newTrack.setTrack_album(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
+					if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent().length()<100){
+						newTrack.setTrack_album(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
+					}
+					else
+						newTrack.setTrack_album("[sring too large]");
 				}
 			}
 			trackList.add(newTrack);
@@ -113,7 +126,7 @@ public class XmlParseRestService {
 			e.printStackTrace();
 		}
 		int numberPlaylist = playlists.getRoot().getArray().getDicts().size();
-		System.out.println("number of playlists: "+numberPlaylist);
+//		System.out.println("number of playlists: "+numberPlaylist);
 		
 		for(int i=0; i<numberPlaylist; i++){
 			Playlist newPlaylist = new Playlist();
@@ -125,7 +138,11 @@ public class XmlParseRestService {
 					newPlaylist.setPlaylist_id(Integer.parseInt(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent()));
 				}
 				if(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x).getTextContent().equals("Name")){
-					newPlaylist.setPlaylist_name(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent());
+					if(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent().length()<100){
+						newPlaylist.setPlaylist_name(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent());
+					}
+					else
+						newPlaylist.setPlaylist_name("[sring too large]");
 				}
 			}
 			int numberTracks = playlists.getRoot().getArray().getDicts().get(i).getArray().getDicts().size();
@@ -142,24 +159,23 @@ public class XmlParseRestService {
 		
 		Playlist_Track_Link playlist_track;
 		
-		System.out.println("All tracks....");
-		for(int x=0; x < trackList.size(); x++){
-			System.out.println(trackList.get(x).getTrack_id());
-		}
+//		System.out.println("All tracks....");
+//		for(int x=0; x < trackList.size(); x++){
+//			System.out.println(trackList.get(x).getTrack_id());
+//		}
 		
 		for(int i=0; i < playlistList.size(); i++){
-			System.out.println("**********************"+i);
-			System.out.println("Playlist id: "+playlistList.get(i).getPlaylist_id());
+//			System.out.println("**********************"+i);
+//			System.out.println("Playlist id: "+playlistList.get(i).getPlaylist_id());
 			int numberTracks = playlistList.get(i).getTrack_id_list().size();
 			for(int y=0; y<numberTracks; y++){
 				
-				System.out.println("    track id: "+playlistList.get(i).getTrack_id_list().get(y));
+				//System.out.println("    track id: "+playlistList.get(i).getTrack_id_list().get(y));
 				for(int x=0; x < trackList.size(); x++){
-
 					if(trackList.get(x).getTrack_id().equals(playlistList.get(i).getTrack_id_list().get(y))){
 						playlist_track = new Playlist_Track_Link(playlistList.get(i),trackList.get(x));
 						playlist_track_link.add(playlist_track);
-						System.out.println("added track id: "+trackList.get(x).getTrack_id());
+						//System.out.println("added track id: "+trackList.get(x).getTrack_id());
 					}
 				}
 			}
