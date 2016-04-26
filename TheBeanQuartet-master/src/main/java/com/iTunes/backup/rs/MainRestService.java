@@ -30,7 +30,7 @@ public class MainRestService {
 	private Service service;
 	
 	/////////////////////////////////////////////////////////////////////// User Services
-	/*
+	
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
 	@Path("/get/users")
@@ -182,7 +182,7 @@ public class MainRestService {
 		System.out.println("playlist_id: "+playlist_id);
 		return service.deletePlaylist(playlist_id);
 	}
-	*/
+	
 
 }
 	

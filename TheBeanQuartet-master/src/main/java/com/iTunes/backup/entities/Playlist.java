@@ -36,25 +36,25 @@ public class Playlist implements Serializable{
 	private String playlist_name;
 	
 	
-//	@OneToMany(mappedBy = "playlist")//attribute
-//	private Collection<Playlist_Track_Link> playlist_track_link = new ArrayList<Playlist_Track_Link>();
+	@OneToMany(mappedBy = "playlist")//attribute
+	private Collection<Playlist_Track_Link> playlist_track_link = new ArrayList<Playlist_Track_Link>();
+	
+	
+	
+	
 //	
-	
-	
-	
-	
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(
-		name = "playlist_track_link", 
-		joinColumns = { 
-				@JoinColumn(name = "playlist_id", nullable = false, updatable = false) 
-		}, 
-		inverseJoinColumns = { 
-				@JoinColumn(name = "track_id", nullable = false, updatable = false) 
-		}
-	)
-	private Collection<Track> tracks= new ArrayList<Track>();
-	
+//	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+//	@JoinTable(
+//		name = "playlist_track_link", 
+//		joinColumns = { 
+//				@JoinColumn(name = "playlist_id", nullable = false, updatable = false) 
+//		}, 
+//		inverseJoinColumns = { 
+//				@JoinColumn(name = "track_id", nullable = false, updatable = false) 
+//		}
+//	)
+//	private Collection<Track> tracks= new ArrayList<Track>();
+//	
 	
 	
 	

@@ -110,10 +110,10 @@ public class Main_JPA implements Main_DAO{
 		*/
 
 		
-	//	Playlist p = em.find(Playlist.class, playlist_id); 
-	//	em.remove(p);
+		Playlist p = em.find(Playlist.class, playlist_id); 
+		em.remove(p);
 		
-		return "Playlist Deleteddddddd";
+		return "Playlist Deleted";
 	}
 
 

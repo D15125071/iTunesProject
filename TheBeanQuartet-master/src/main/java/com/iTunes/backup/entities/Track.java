@@ -37,11 +37,11 @@ public class Track implements Serializable{
 	
 	
 	
-//	@OneToMany(mappedBy="track")
-//	@JsonIgnore
-//	private Collection<Playlist_Track_Link> playlist = new ArrayList<Playlist_Track_Link>();
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "tracks")
-	private Collection<Playlist> playlists=new ArrayList<Playlist>();
+	@OneToMany(mappedBy="track")
+	private Collection<Playlist_Track_Link> playlist = new ArrayList<Playlist_Track_Link>();
+	
+//	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "tracks")
+//	private Collection<Playlist> playlists=new ArrayList<Playlist>();
 	
 	public Integer getTrack_id() {
 		return track_id;

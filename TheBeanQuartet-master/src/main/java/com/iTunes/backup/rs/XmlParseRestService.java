@@ -50,24 +50,26 @@ public class XmlParseRestService {
 		System.out.println("**************** parsing xml");
 		System.out.println("Try version 1: time: 13.15");
 		
+		String filePath = opt.getOption1();
+		
 		try {
-			compileXMLtoTrackList();
-			compileXMLtoPlaylist();
+			compileXMLtoTrackList(filePath);
+			compileXMLtoPlaylist(filePath);
 		} catch (FileNotFoundException | SAXException e) {
 			e.printStackTrace();
 		}
-		//Create_Playlist_Track_Link();
+		Create_Playlist_Track_Link();
 		
 		
 		return "xml parse complete";
 	}
-	public void compileXMLtoTrackList() throws FileNotFoundException, SAXException{
+	public void compileXMLtoTrackList(String filePath) throws FileNotFoundException, SAXException{
 
 		MusicLibraryTracks tracks = new MusicLibraryTracks();
 		
 		
 		try {
-			tracks = JAXBXMLHandler.unmarshalTracks(new File("C:/Users/D15125071/Desktop/iTunes_Music_Library3.xml"));
+			tracks = JAXBXMLHandler.unmarshalTracks(new File("C:/Users/Ivan/Desktop/iTunes_Music_Library3.xml"));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -83,25 +85,16 @@ public class XmlParseRestService {
 			newTrack.setTrack_artist("unknown");
 			newTrack.setTrack_album("unknown");
 			for(int x=0; x<numberTrackElements; x++){
-				
 				if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x).getTextContent().equals("Track ID")){
-					//System.out.println("ID:");
-					//System.out.println("    "+tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 					newTrack.setTrack_id(Integer.parseInt(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent()));
 				}
 				if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x).getTextContent().equals("Name")){
-					//System.out.println("Name:");
-					//System.out.println("    "+tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 					newTrack.setTrack_name(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 				}
 				if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x).getTextContent().equals("Artist")){
-					//System.out.println("Artist:");
-					//System.out.println("    "+tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 					newTrack.setTrack_artist(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 				}
 				if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x).getTextContent().equals("Album")){
-					//System.out.println("Album:");
-					//System.out.println("    "+tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 					newTrack.setTrack_album(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 				}
 			}
@@ -110,12 +103,12 @@ public class XmlParseRestService {
 		System.out.println(service.addTracks(trackList));
 	}	
 	
-	public void compileXMLtoPlaylist() throws FileNotFoundException, SAXException{
+	public void compileXMLtoPlaylist(String filePath) throws FileNotFoundException, SAXException{
 
 		Playlist_plist playlists = new Playlist_plist();
 		
 		try {
-			playlists = JAXBXMLHandler.unmarshalPlaylist(new File("C:/Users/D15125071/Desktop/iTunes_Music_Library3.xml"));
+			playlists = JAXBXMLHandler.unmarshalPlaylist(new File("C:/Users/Ivan/Desktop/iTunes_Music_Library3.xml"));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -129,19 +122,14 @@ public class XmlParseRestService {
 			int numberOtherElements = playlists.getRoot().getArray().getDicts().get(i).getOthers().size();
 			for(int x=0; x<numberOtherElements; x++){
 				if(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x).getTextContent().equals("Playlist ID")){
-					//System.out.println(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent());
 					newPlaylist.setPlaylist_id(Integer.parseInt(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent()));
 				}
 				if(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x).getTextContent().equals("Name")){
-					//System.out.println(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent());
 					newPlaylist.setPlaylist_name(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent());
 				}
 			}
 			int numberTracks = playlists.getRoot().getArray().getDicts().get(i).getArray().getDicts().size();
 			for(int x=0; x<numberTracks; x++){
-				//System.out.println(playlists.getRoot().getArray().getDicts().get(i).getArray().getDicts().get(x).getOthers().get(1).getTextContent());
-
-							
 				if(!newPlaylist.getTrack_id_list().contains(Integer.parseInt(playlists.getRoot().getArray().getDicts().get(i).getArray().getDicts().get(x).getOthers().get(1).getTextContent())))
 					newPlaylist.getTrack_id_list().add(Integer.parseInt(playlists.getRoot().getArray().getDicts().get(i).getArray().getDicts().get(x).getOthers().get(1).getTextContent()));
 			
