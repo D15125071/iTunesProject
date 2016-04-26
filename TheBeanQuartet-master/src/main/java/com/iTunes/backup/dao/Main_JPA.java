@@ -102,16 +102,18 @@ public class Main_JPA implements Main_DAO{
 
 	@Override
 	public String deletePlaylist(int playlist_id) {
-	
-		Query query = em.createQuery("delete from Playlist_Track_Link p where p.playlist_id = :p_id");
-		query.setParameter("p_id", playlist_id);
-		
-		em.find
+		/*
+		System.out.println("time: 14.115252332323323");
+		Playlist p = em.find(Playlist.class, playlist_id);
+		System.out.println(p.getPlaylist_name());
+		em.remove(p);
+		*/
+
 		
 	//	Playlist p = em.find(Playlist.class, playlist_id); 
 	//	em.remove(p);
 		
-		return "Playlist Deleted";
+		return "Playlist Deleteddddddd";
 	}
 
 

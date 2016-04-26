@@ -30,7 +30,7 @@ public class MainRestService {
 	private Service service;
 	
 	/////////////////////////////////////////////////////////////////////// User Services
-	
+	/*
 	@GET
     @Produces(MediaType.APPLICATION_JSON)
 	@Path("/get/users")
@@ -127,7 +127,6 @@ public class MainRestService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/playlist/list")
 	public PlaylistCollection GetPlaylistList(){
-		System.out.println("playlists requested");
 		int playlist_id = 0;//might not be used
 		PlaylistCollection playlists = new PlaylistCollection();
 		playlists.setPlaylistCollection(service.GetPlaylists(playlist_id));
@@ -178,10 +177,12 @@ public class MainRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/playlist/delete")
 	public String deletePlaylist(Options opt){
+		System.out.println("deleting playlist");
 		int playlist_id = Integer.parseInt(opt.getOption1());
 		System.out.println("playlist_id: "+playlist_id);
 		return service.deletePlaylist(playlist_id);
 	}
+	*/
 
 }
 	

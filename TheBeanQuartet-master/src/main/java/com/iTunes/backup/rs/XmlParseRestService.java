@@ -3,6 +3,7 @@ package com.iTunes.backup.rs;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class XmlParseRestService {
 		System.out.println(opt.getOption1());
 		System.out.println(opt.getOption2());
 		System.out.println("**************** parsing xml");
+		System.out.println("Try version 1: time: 13.15");
 		
 		try {
 			compileXMLtoTrackList();
@@ -54,7 +56,8 @@ public class XmlParseRestService {
 		} catch (FileNotFoundException | SAXException e) {
 			e.printStackTrace();
 		}
-		Create_Playlist_Track_Link();
+		//Create_Playlist_Track_Link();
+		
 		
 		return "xml parse complete";
 	}
@@ -64,7 +67,7 @@ public class XmlParseRestService {
 		
 		
 		try {
-			tracks = JAXBXMLHandler.unmarshalTracks(new File("C:/Users/Ivan/Desktop/iTunes_Music_Library3.xml"));
+			tracks = JAXBXMLHandler.unmarshalTracks(new File("C:/Users/D15125071/Desktop/iTunes_Music_Library3.xml"));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
@@ -112,7 +115,7 @@ public class XmlParseRestService {
 		Playlist_plist playlists = new Playlist_plist();
 		
 		try {
-			playlists = JAXBXMLHandler.unmarshalPlaylist(new File("C:/Users/Ivan/Desktop/iTunes_Music_Library3.xml"));
+			playlists = JAXBXMLHandler.unmarshalPlaylist(new File("C:/Users/D15125071/Desktop/iTunes_Music_Library3.xml"));
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}

@@ -49,12 +49,4 @@ public class XML_JPA implements XML_DAO{
 		}
 		return "complete";
 	}
-
-
-	
-
-	
-
-
-
 }
