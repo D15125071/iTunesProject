@@ -18,15 +18,6 @@ public class Playlist_Track_Link implements Serializable {
 	@Id
 	@Column(name = "id")
 	private String id;
-//	@EmbeddedId private PlaylistTrackId id;
-	
-//	public PlaylistTrackId getId() {
-//		return id;
-//	}
-//
-//	public void setId(PlaylistTrackId id) {
-//		this.id = id;
-//	}
 
 	@Column(name = "track_id")
 	private Integer track_id;
@@ -49,10 +40,7 @@ public class Playlist_Track_Link implements Serializable {
 	public Playlist_Track_Link(Playlist playlist, Track track) {
 		this.playlist = playlist;
 		this.track = track;
-//		PlaylistTrackId id = new PlaylistTrackId();
-//		id.setPlaylist_id(playlist.getPlaylist_id());
-//		id.setTrack_id(track.getTrack_id());
-//		this.id = id;
+		
 		this.track_id = track.getTrack_id();
 		this.playlist_id = playlist.getPlaylist_id();
 		this.id = track.getTrack_id()+""+playlist.getPlaylist_id()+"";

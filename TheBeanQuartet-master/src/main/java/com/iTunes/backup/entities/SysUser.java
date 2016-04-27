@@ -3,11 +3,15 @@ package com.iTunes.backup.entities;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -34,6 +38,10 @@ public class SysUser implements Serializable {
 	@Column(name="user_id") private int user_id;
 	@Column(name="user_name") private String user_name;
 	@Column(name="user_password") private String user_password;
+	
+	
+	@OneToMany(mappedBy="sysUser")
+	private Collection<Library> library=new ArrayList<Library>();
 	
 	
 	public SysUser(){}
@@ -63,8 +71,5 @@ public class SysUser implements Serializable {
 	}
 
 	
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 }

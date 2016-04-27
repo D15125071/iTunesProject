@@ -37,10 +37,21 @@ public class Playlist implements Serializable{
 	@Column(name = "playlist_name")
 	private String playlist_name;
 	
-	@ManyToOne
-	@JoinColumns({ @JoinColumn(name = "library_id", referencedColumnName = "library_id")})
-	private Library library;
+	@Column(name = "library_id")
+	private String library_id;
 	
+
+	@ManyToOne
+	@JoinColumn(name = "library_id", referencedColumnName = "library_id")
+	private Library library;
+
+
+	@OneToMany(mappedBy = "playlist")//attribute
+	private Collection<Playlist_Track_Link> playlist_track_link = new ArrayList<Playlist_Track_Link>();
+	
+	
+	@Transient
+	List<Integer> track_id_list = new ArrayList<Integer>();//might use for database, remove @Transient
 	
 	public Library getLibrary() {
 		return library;
@@ -49,13 +60,6 @@ public class Playlist implements Serializable{
 	public void setLibrary(Library library) {
 		this.library = library;
 	}
-
-	@OneToMany(mappedBy = "playlist")//attribute
-	private Collection<Playlist_Track_Link> playlist_track_link = new ArrayList<Playlist_Track_Link>();
-	
-	
-	@Transient
-	List<Integer> track_id_list = new ArrayList<Integer>();//might use for database, remove @Transient
 
 	public List<Integer> getTrack_id_list() {
 		return track_id_list;
@@ -79,6 +83,13 @@ public class Playlist implements Serializable{
 
 	public void setPlaylist_name(String playlist_name) {
 		this.playlist_name = playlist_name;
+	}
+	public String getLibrary_id() {
+		return library_id;
+	}
+
+	public void setLibrary_id(String library_id) {
+		this.library_id = library_id;
 	}
 
 	public Playlist() {}
