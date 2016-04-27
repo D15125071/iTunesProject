@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.iTunes.backup.entities.Library;
 import com.iTunes.backup.entities.Playlist;
 import com.iTunes.backup.entities.Playlist_Track_Link;
 import com.iTunes.backup.entities.Track;
@@ -102,6 +103,12 @@ public class Main_JPA implements Main_DAO{
 		em.persist(playlist_track);
 		
 		return "Track moved";
+	}
+
+	@Override
+	public void addLibrary(Library lib) {
+		em.persist(lib);
+		
 	}
 
 

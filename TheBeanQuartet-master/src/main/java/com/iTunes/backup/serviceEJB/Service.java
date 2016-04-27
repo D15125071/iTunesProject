@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import com.iTunes.backup.entities.Library;
 import com.iTunes.backup.entities.Playlist;
 import com.iTunes.backup.entities.Playlist_Track_Link;
 import com.iTunes.backup.entities.SysUser;
@@ -42,5 +43,7 @@ public interface Service {
 	public String deletePlaylist(int playlist_id);
 
 	public String moveTrack(int from_playlist_id, int track_id, int to_playlist_id);
+
+	public void addLibrary(Library lib);
 
 }

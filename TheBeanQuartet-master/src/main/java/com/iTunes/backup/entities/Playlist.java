@@ -12,10 +12,12 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -35,30 +37,21 @@ public class Playlist implements Serializable{
 	@Column(name = "playlist_name")
 	private String playlist_name;
 	
+	@ManyToOne
+	@JoinColumns({ @JoinColumn(name = "library_id", referencedColumnName = "library_id")})
+	private Library library;
 	
+	
+	public Library getLibrary() {
+		return library;
+	}
+
+	public void setLibrary(Library library) {
+		this.library = library;
+	}
+
 	@OneToMany(mappedBy = "playlist")//attribute
 	private Collection<Playlist_Track_Link> playlist_track_link = new ArrayList<Playlist_Track_Link>();
-	
-	
-	
-	
-//	
-//	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//	@JoinTable(
-//		name = "playlist_track_link", 
-//		joinColumns = { 
-//				@JoinColumn(name = "playlist_id", nullable = false, updatable = false) 
-//		}, 
-//		inverseJoinColumns = { 
-//				@JoinColumn(name = "track_id", nullable = false, updatable = false) 
-//		}
-//	)
-//	private Collection<Track> tracks= new ArrayList<Track>();
-//	
-	
-	
-	
-	
 	
 	
 	@Transient

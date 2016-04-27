@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,9 +19,11 @@ import javax.xml.bind.JAXBException;
 
 import org.xml.sax.SAXException;
 
+import com.iTunes.backup.entities.Library;
 import com.iTunes.backup.entities.Options;
 import com.iTunes.backup.entities.Playlist;
 import com.iTunes.backup.entities.Playlist_Track_Link;
+import com.iTunes.backup.entities.SysUser;
 import com.iTunes.backup.entities.Track;
 import com.iTunes.backup.parse.playlist.Playlist_plist;
 import com.iTunes.backup.parse.tracklist.MusicLibraryTracks;
@@ -34,6 +38,9 @@ public class XmlParseRestService {
 
 	@Inject
 	private Service service;
+	
+	@PersistenceContext
+	private EntityManager em;
 	
 	
 	List<Playlist> playlistList = new ArrayList<Playlist>();
@@ -53,8 +60,9 @@ public class XmlParseRestService {
 		String filePath = opt.getOption1();
 		
 		try {
+			String lib_id = findLibraryId(3);//persist library
 			compileXMLtoTrackList(filePath);
-			compileXMLtoPlaylist(filePath);
+			compileXMLtoPlaylist(filePath, lib_id, 1);
 		} catch (FileNotFoundException | SAXException e) {
 			e.printStackTrace();
 		}
@@ -66,7 +74,6 @@ public class XmlParseRestService {
 	public void compileXMLtoTrackList(String filePath) throws FileNotFoundException, SAXException{
 
 		MusicLibraryTracks tracks = new MusicLibraryTracks();
-		
 		
 		try {
 			tracks = JAXBXMLHandler.unmarshalTracks(new File(filePath));
@@ -89,26 +96,13 @@ public class XmlParseRestService {
 					newTrack.setTrack_id(Integer.parseInt(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent()));
 				}
 				if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x).getTextContent().equals("Name")){
-					
-					if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent().length()<100){
-						newTrack.setTrack_name(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
-					}
-					else
-						newTrack.setTrack_name("[sring too large]");
+					newTrack.setTrack_name(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 				}
 				if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x).getTextContent().equals("Artist")){
-					if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent().length()<100){
-						newTrack.setTrack_artist(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
-					}
-					else
-						newTrack.setTrack_artist("[sring too large]");
+					newTrack.setTrack_artist(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 				}
 				if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x).getTextContent().equals("Album")){
-					if(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent().length()<100){
-						newTrack.setTrack_album(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
-					}
-					else
-						newTrack.setTrack_album("[sring too large]");
+					newTrack.setTrack_album(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 				}
 			}
 			trackList.add(newTrack);
@@ -116,7 +110,14 @@ public class XmlParseRestService {
 		System.out.println(service.addTracks(trackList));
 	}	
 	
-	public void compileXMLtoPlaylist(String filePath) throws FileNotFoundException, SAXException{
+	public void compileXMLtoPlaylist(String filePath, String lib_id, int user_id) throws FileNotFoundException, SAXException{
+		
+		
+		SysUser sysUser = em.find(SysUser.class, user_id);
+		Library lib = new Library("qwerty", sysUser);
+		
+		service.addLibrary(lib);
+		
 
 		Playlist_plist playlists = new Playlist_plist();
 		
@@ -138,11 +139,7 @@ public class XmlParseRestService {
 					newPlaylist.setPlaylist_id(Integer.parseInt(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent()));
 				}
 				if(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x).getTextContent().equals("Name")){
-					if(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent().length()<100){
-						newPlaylist.setPlaylist_name(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent());
-					}
-					else
-						newPlaylist.setPlaylist_name("[sring too large]");
+					newPlaylist.setPlaylist_name(playlists.getRoot().getArray().getDicts().get(i).getOthers().get(x+1).getTextContent());
 				}
 			}
 			int numberTracks = playlists.getRoot().getArray().getDicts().get(i).getArray().getDicts().size();
@@ -151,10 +148,12 @@ public class XmlParseRestService {
 					newPlaylist.getTrack_id_list().add(Integer.parseInt(playlists.getRoot().getArray().getDicts().get(i).getArray().getDicts().get(x).getOthers().get(1).getTextContent()));
 			
 			}
+			newPlaylist.setLibrary(lib);
 			playlistList.add(newPlaylist);
 		}
 		System.out.println(service.addPlaylist(playlistList));
 	}
+	
 	public void Create_Playlist_Track_Link(){
 		
 		Playlist_Track_Link playlist_track;
@@ -181,6 +180,15 @@ public class XmlParseRestService {
 			}
 		}
 		System.out.println(service.addPlaylist_Track_link(playlist_track_link));
+	}
+	
+	public String findLibraryId(int library_id){
+		
+		return "qwerty";
+
+		
+		
+		
 	}
 	
 	

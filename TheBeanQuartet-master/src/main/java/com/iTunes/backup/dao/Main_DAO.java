@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.ejb.Local;
 
+import com.iTunes.backup.entities.Library;
 import com.iTunes.backup.entities.Playlist;
 import com.iTunes.backup.entities.Playlist_Track_Link;
 import com.iTunes.backup.entities.Track;
@@ -29,4 +30,6 @@ public interface Main_DAO {
 	String deletePlaylist(int playlist_id);
 
 	String moveTrack(int from_playlist_id, int track_id, int to_playlist_id);
+
+	void addLibrary(Library lib);
 }

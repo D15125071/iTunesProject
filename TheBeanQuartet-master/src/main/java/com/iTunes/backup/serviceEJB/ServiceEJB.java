@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import com.iTunes.backup.dao.Main_DAO;
 import com.iTunes.backup.dao.SysUserDAO;
 import com.iTunes.backup.dao.XML_DAO;
+import com.iTunes.backup.entities.Library;
 import com.iTunes.backup.entities.Playlist;
 import com.iTunes.backup.entities.Playlist_Track_Link;
 import com.iTunes.backup.entities.SysUser;
@@ -94,5 +95,10 @@ public class ServiceEJB implements Service{
 	@Override
 	public String moveTrack(int from_playlist_id, int track_id, int to_playlist_id) {
 		return mainDao.moveTrack(from_playlist_id, track_id, to_playlist_id);
+	}
+	@Override
+	public void addLibrary(Library lib) {
+		// TODO Auto-generated method stub
+		mainDao.addLibrary(lib);
 	}
 }
