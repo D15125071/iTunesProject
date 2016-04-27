@@ -25,26 +25,18 @@ public class Library implements Serializable {
 	@Column(name="library_id") 
 	private String library_id;
 	
-	@Column(name = "user_id")
-	private int user_id;
 
 	//join to SysUser
 	@ManyToOne
-	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
+	@JoinColumn(name = "user_obj", referencedColumnName = "user_id")
 	private SysUser sysUser;
 	
-	//join to Playlist
+	//join to PlayList
 	@OneToMany(mappedBy="library")
 	private Collection<Playlist> playlist=new ArrayList<Playlist>();
 	
 
 
-	public int getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
-	}
 	public String getLibrary_id() {
 		return library_id;
 	}
@@ -61,8 +53,8 @@ public class Library implements Serializable {
 
 
 	public Library(){}
-	public Library(String libraryPID, SysUser sysUser){
-		this.library_id=libraryPID;
+	public Library(String library_id, SysUser sysUser){
+		this.library_id=library_id;
 		this.sysUser=sysUser;
 	}
 

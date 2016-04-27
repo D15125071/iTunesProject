@@ -37,12 +37,11 @@ public class Playlist implements Serializable{
 	@Column(name = "playlist_name")
 	private String playlist_name;
 	
-	@Column(name = "library_id")
-	private String library_id;
+
 	
 
 	@ManyToOne
-	@JoinColumn(name = "library_id", referencedColumnName = "library_id")
+	@JoinColumn(name = "library_obj", referencedColumnName = "library_id")
 	private Library library;
 
 
@@ -84,19 +83,14 @@ public class Playlist implements Serializable{
 	public void setPlaylist_name(String playlist_name) {
 		this.playlist_name = playlist_name;
 	}
-	public String getLibrary_id() {
-		return library_id;
-	}
 
-	public void setLibrary_id(String library_id) {
-		this.library_id = library_id;
-	}
 
 	public Playlist() {}
 
-	public Playlist(Integer playlist_id, String playlist_name) {
+	public Playlist(Integer playlist_id, String playlist_name, Library lib) {
 		this.playlist_id = playlist_id;
 		this.playlist_name = playlist_name;
+		this.library = lib;
 	}
 
 }

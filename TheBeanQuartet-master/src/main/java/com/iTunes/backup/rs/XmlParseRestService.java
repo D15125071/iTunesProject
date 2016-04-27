@@ -46,23 +46,22 @@ public class XmlParseRestService {
 	List<Playlist> playlistList = new ArrayList<Playlist>();
 	List<Track> trackList = new ArrayList<Track>();
 	List<Playlist_Track_Link> playlist_track_link = new ArrayList<Playlist_Track_Link>();
+	SysUser user;
+	int user_id;
+	String library_id="empty";
 	
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/xml")
 	public String parseXML(Options opt){
-		System.out.println(opt.getOption1());
-		System.out.println(opt.getOption2());
-		System.out.println("**************** parsing xml");
-		System.out.println("Try version 1: time: 00.32");
 		
 		String filePath = opt.getOption1();
+		user_id = 1;
 		
 		try {
-			String lib_id = findLibraryId(3);//persist library
 			compileXMLtoTrackList(filePath);
-			compileXMLtoPlaylist(filePath, lib_id, 1);
+			compileXMLtoPlaylist(filePath);
 		} catch (FileNotFoundException | SAXException e) {
 			e.printStackTrace();
 		}
@@ -80,6 +79,14 @@ public class XmlParseRestService {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
+		
+		for(int n=0;n<tracks.getTracksPlaylist().getOthers().size();n++){
+			if(tracks.getTracksPlaylist().getOthers().get(n).getTextContent().equals("Library Persistent ID")){
+				//System.out.println(tracks.getTracksPlaylist().getOthers().get(n+1).getTextContent());
+				library_id = tracks.getTracksPlaylist().getOthers().get(n+1).getTextContent();
+			}
+		}
+
 		int numberTracks = tracks.getTracksPlaylist().getRoot().getTrackList().size();
 //		System.out.println("number of tracks: "+numberTracks);
 
@@ -110,12 +117,10 @@ public class XmlParseRestService {
 		System.out.println(service.addTracks(trackList));
 	}	
 	
-	public void compileXMLtoPlaylist(String filePath, String lib_id, int user_id) throws FileNotFoundException, SAXException{
-		
+	public void compileXMLtoPlaylist(String filePath) throws FileNotFoundException, SAXException{
 		
 		SysUser sysUser = em.find(SysUser.class, user_id);
-		Library lib = new Library("qwerty", sysUser);
-		
+		Library lib = new Library(library_id, sysUser);
 		service.addLibrary(lib);
 		
 
@@ -180,19 +185,7 @@ public class XmlParseRestService {
 			}
 		}
 		System.out.println(service.addPlaylist_Track_link(playlist_track_link));
-	}
-	
-	public String findLibraryId(int library_id){
-		
-		return "qwerty";
-
-		
-		
-		
-	}
-	
-	
-		
+	}		
 
 }
 	

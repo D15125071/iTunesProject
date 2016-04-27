@@ -108,7 +108,6 @@ public class Main_JPA implements Main_DAO{
 	@Override
 	public void addLibrary(Library lib) {
 		em.persist(lib);
-		
 	}
 
 
