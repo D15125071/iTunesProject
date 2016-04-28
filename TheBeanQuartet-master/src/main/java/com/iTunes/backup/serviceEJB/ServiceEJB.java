@@ -78,27 +78,32 @@ public class ServiceEJB implements Service{
 		return mainDao.getPlaylistTracks(id,user_name);
 	}
 	@Override
-	public String setPlaylistName(int id, String name) {
+	public String setPlaylistName(int user_id,int id, String name) {
 		// TODO Auto-generated method stub
-		return mainDao.setPlaylistName(id, name);
+		return mainDao.setPlaylistName(user_id,id, name);
 	}
 	@Override
-	public String deleteTrack(String user_name, int playlist_id, int track_id) {
+	public String deleteTrack(int user_id, int playlist_id, int track_id) {
 		// TODO Auto-generated method stub
-		return mainDao.deleteTrack(user_name,playlist_id, track_id);
+		return mainDao.deleteTrack(user_id,playlist_id, track_id);
 	}
 	@Override
-	public String deletePlaylist(String user_name,int playlist_id) {
+	public String deletePlaylist(int user_name,int playlist_id) {
 		// TODO Auto-generated method stub
 		return mainDao.deletePlaylist(user_name,playlist_id);
 	}
 	@Override
-	public String moveTrack(int from_playlist_id, int track_id, int to_playlist_id) {
-		return mainDao.moveTrack(from_playlist_id, track_id, to_playlist_id);
+	public String moveTrack(int user_id,int from_playlist_id, int track_id, int to_playlist_id) {
+		return mainDao.moveTrack(user_id,from_playlist_id, track_id, to_playlist_id);
 	}
 	@Override
 	public void addLibrary(Library lib) {
 		// TODO Auto-generated method stub
 		mainDao.addLibrary(lib);
+	}
+	@Override
+	public int getUserId(String user_name) {
+		// TODO Auto-generated method stub
+		return mainDao.getUserId(user_name);
 	}
 }

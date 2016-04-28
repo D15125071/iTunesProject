@@ -117,8 +117,7 @@ public class MainRestService {
 	@Path("/playlist/tracks")
 	public Playlist_TrackCollection GetPlaylistTracks(Options opt){
 		int id = Integer.parseInt(opt.getOption1());
-		String user_name = "Adajio";
-		System.out.println("Playlist id: "+id);
+		String user_name = opt.getOption2();
 		Playlist_TrackCollection data = new Playlist_TrackCollection();
 		data.setCollection(service.getPlaylistTracks(id,user_name));
 		return data;
@@ -129,8 +128,7 @@ public class MainRestService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Path("/playlist/list")
 	public PlaylistCollection GetPlaylistList(Options opt){
-		String user_username = opt.getOption1();//
-		String user_name = "Adajio";
+		String user_name = opt.getOption1();//
 		PlaylistCollection playlists = new PlaylistCollection();
 		playlists.setPlaylistCollection(service.GetPlaylists(user_name));
 		return playlists;
@@ -162,8 +160,10 @@ public class MainRestService {
 	@Path("/playlist/rename")
 	public String setPlaylistName(Options opt){
 		String name = opt.getOption2();
-		int id = Integer.parseInt(opt.getOption1());
-		return service.setPlaylistName(id, name);
+		int playlist_id = Integer.parseInt(opt.getOption1());
+		String user_name = opt.getOption3();
+		int user_id = service.getUserId(user_name);
+		return service.setPlaylistName(user_id,playlist_id, name);
 	}
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
@@ -172,9 +172,10 @@ public class MainRestService {
 	public String deleteTrack(Options opt){
 		int track_id = Integer.parseInt(opt.getOption2());
 		int playlist_id = Integer.parseInt(opt.getOption1());
-		String user_name = "Adajio";
+		String user_name = opt.getOption3();
+		int user_id = service.getUserId(user_name);
 		System.out.println("track_id: "+track_id+" "+"playlist_id: "+playlist_id);
-		return service.deleteTrack(user_name, playlist_id, track_id);
+		return service.deleteTrack(user_id, playlist_id, track_id);
 	}
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
@@ -183,9 +184,12 @@ public class MainRestService {
 	public String deletePlaylist(Options opt){
 		System.out.println("deleting playlist");
 		int playlist_id = Integer.parseInt(opt.getOption1());
-		String user_name = "Adajio";
+		String user_name = opt.getOption2();
+		int user_id = service.getUserId(user_name);
+		System.out.println("user_name: "+user_name);
+		System.out.println("user_id: "+user_id);
 		System.out.println("playlist_id: "+playlist_id);
-		return service.deletePlaylist(user_name, playlist_id);
+		return service.deletePlaylist(user_id, playlist_id);
 	}
 	@POST
 	@Produces(MediaType.TEXT_PLAIN)
@@ -195,7 +199,9 @@ public class MainRestService {
 		int from_playlist_id = Integer.parseInt(opt.getOption1());
 		int track_id = Integer.parseInt(opt.getOption2());
 		int to_playlist_id = Integer.parseInt(opt.getOption3());
-		return service.moveTrack(from_playlist_id, track_id, to_playlist_id);
+		String user_name = opt.getOption4();
+		int user_id = service.getUserId(user_name);
+		return service.moveTrack(user_id,from_playlist_id, track_id, to_playlist_id);
 	}
 	
 

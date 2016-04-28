@@ -36,14 +36,16 @@ public interface Service {
 
 	public Collection<Playlist_Track_Link> getPlaylistTracks(int id, String user_name);
 
-	public String setPlaylistName(int id, String name);
+	public String setPlaylistName(int id, int playlist_id, String name);
 
-	public String deleteTrack(String user_name, int playlist_id, int track_id);
+	public String deleteTrack(int user_id, int playlist_id, int track_id);
 
-	public String deletePlaylist(String user_name, int playlist_id);
+	public String deletePlaylist(int user_id, int playlist_id);
 
-	public String moveTrack(int from_playlist_id, int track_id, int to_playlist_id);
+	public String moveTrack(int from_playlist_id, int track_id, int to_playlist_id, int to_playlist_id2);
 
 	public void addLibrary(Library lib);
+
+	public int getUserId(String user_name);
 
 }

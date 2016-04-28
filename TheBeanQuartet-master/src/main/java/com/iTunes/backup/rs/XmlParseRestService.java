@@ -47,7 +47,7 @@ public class XmlParseRestService {
 	List<Playlist_Track_Link> playlist_track_link = new ArrayList<Playlist_Track_Link>();
 	SysUser user;
 	int user_id;
-	String user_name = "Adajio";
+	String user_name = "";
 	String library_id="empty";
 	
 	@POST
@@ -57,8 +57,10 @@ public class XmlParseRestService {
 	public String parseXML(Options opt){
 		
 		String filePath = opt.getOption1();
-		user_id = 1;
 		
+		user_name = opt.getOption2();
+		System.out.println(user_name);
+		user_id = service.getUserId(user_name);
 		
 		try {
 			compileXMLtoTrackList(filePath);

@@ -33,7 +33,7 @@
 
 		$("#login").submit(function Login(){
 			var url = document.getElementById("formInput").value;
-			var obj1 = new obj(url, 'window.sessionStorage.getItem("username")', "", "");
+			var obj1 = new obj(url, window.sessionStorage.getItem("username"), "", "");
 			$.ajax({
 				async : false,
 				type : 'POST',

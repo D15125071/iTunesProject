@@ -130,7 +130,7 @@
 		var url = "rest/lib/playlist/tracks";
 		var obj1 = new obj(
 			document.getElementById("playlist1-dropdown").value, //id
-			"", 
+			window.sessionStorage.getItem("username"), 
 			"",
 			""
 		);
@@ -183,14 +183,14 @@
 					document.getElementById("playlist1-dropdown").value, //id
 					document.getElementById("track-dropdown").value, //id
 					document.getElementById("playlist2-dropdown").value, //id
-					""
+					window.sessionStorage.getItem("username")
 				);
 			}
 			if(optionAnswer == "deletePlaylist"){
 				url = "rest/lib/playlist/delete";
 				var obj1 = new obj(
 					document.getElementById("playlist1-dropdown").value, 
-					"", 
+					window.sessionStorage.getItem("username"), 
 					"",
 					""
 				);
@@ -200,7 +200,7 @@
 				var obj1 = new obj(
 					document.getElementById("playlist1-dropdown").value, 
 					document.getElementById("track-dropdown").value,
-					"",
+					window.sessionStorage.getItem("username"),
 					""
 				);
 			}
@@ -209,10 +209,10 @@
 				var obj1 = new obj(
 					document.getElementById("playlist1-dropdown").value, 
 					document.getElementById("newPlaylistName").value, 
-					"",
+					window.sessionStorage.getItem("username"),
 					""
 				);
-			}	
+			}	 
 			$.ajax({
 				async: false,
 				type : 'POST',
