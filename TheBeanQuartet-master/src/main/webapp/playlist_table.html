@@ -46,10 +46,18 @@
 
 	$.ajax({
 		async: false,
-		type : 'GET',
+		type : 'POST',
 		url : 'rest/lib/playlist/list',
 		contentType : 'application/json',
+		data:JSON.stringify(new obj(
+				window.sessionStorage.getItem("username"), //id
+				"", 
+				"",
+				""
+		)),
 		success : function output(data) {
+			
+			
 			var table = $('#myTable').dataTable();
 			table.fnClearTable();
 			$.each(data.playlistCollection, function(index, value) {
@@ -59,11 +67,18 @@
 	            ]);
 		    });
 			
+			
 		}
 	});
 	var help="";	
 	function Help(){
 		alert(help);
+	}
+	function obj(option1, option2, option3, option4) {
+		this.option1 = option1;
+		this.option2 = option2;
+		this.option3 = option3;
+		this.option4 = option4;
 	}
 	</script>
 </body>

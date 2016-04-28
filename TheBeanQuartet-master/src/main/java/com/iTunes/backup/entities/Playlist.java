@@ -30,18 +30,25 @@ public class Playlist implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	
 	@Id
+	@Column(name = "id")
+	private String id;
+
 	@Column(name = "playlist_id")
 	private Integer playlist_id;
 	
 	@Column(name = "playlist_name")
 	private String playlist_name;
 	
+	@Column(name = "user_name")
+	private String user_name;
+	
 
 	
 
 	@ManyToOne
-	@JoinColumn(name = "library_obj", referencedColumnName = "library_id")
+	@JoinColumn(name = "library_obj", referencedColumnName = "id")
 	private Library library;
 
 
@@ -84,6 +91,22 @@ public class Playlist implements Serializable{
 		this.playlist_name = playlist_name;
 	}
 
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(int user_id) {
+		this.id = user_id+""+this.playlist_id;
+	}
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
 
 	public Playlist() {}
 

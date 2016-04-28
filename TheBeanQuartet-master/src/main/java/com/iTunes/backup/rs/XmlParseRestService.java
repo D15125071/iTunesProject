@@ -3,7 +3,6 @@ package com.iTunes.backup.rs;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +47,7 @@ public class XmlParseRestService {
 	List<Playlist_Track_Link> playlist_track_link = new ArrayList<Playlist_Track_Link>();
 	SysUser user;
 	int user_id;
+	String user_name = "Adajio";
 	String library_id="empty";
 	
 	@POST
@@ -58,6 +58,7 @@ public class XmlParseRestService {
 		
 		String filePath = opt.getOption1();
 		user_id = 1;
+		
 		
 		try {
 			compileXMLtoTrackList(filePath);
@@ -112,6 +113,8 @@ public class XmlParseRestService {
 					newTrack.setTrack_album(tracks.getTracksPlaylist().getRoot().getTrackList().get(i).getOthers().get(x+1).getTextContent());
 				}
 			}
+			newTrack.setId(user_id);
+			System.out.println(newTrack.getId());
 			trackList.add(newTrack);
 		}
 		System.out.println(service.addTracks(trackList));
@@ -154,6 +157,8 @@ public class XmlParseRestService {
 			
 			}
 			newPlaylist.setLibrary(lib);
+			newPlaylist.setId(user_id);
+			newPlaylist.setUser_name(user_name);
 			playlistList.add(newPlaylist);
 		}
 		System.out.println(service.addPlaylist(playlistList));
@@ -177,7 +182,7 @@ public class XmlParseRestService {
 				//System.out.println("    track id: "+playlistList.get(i).getTrack_id_list().get(y));
 				for(int x=0; x < trackList.size(); x++){
 					if(trackList.get(x).getTrack_id().equals(playlistList.get(i).getTrack_id_list().get(y))){
-						playlist_track = new Playlist_Track_Link(playlistList.get(i),trackList.get(x));
+						playlist_track = new Playlist_Track_Link(user_id,user_name,playlistList.get(i),trackList.get(x));
 						playlist_track_link.add(playlist_track);
 						//System.out.println("added track id: "+trackList.get(x).getTrack_id());
 					}

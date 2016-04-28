@@ -119,10 +119,17 @@
 	*/
 	
 	$.ajax({
-		async : false,
-		type : 'GET',
+		async: false,
+		type : 'POST',
 		url : 'rest/lib/playlist/list',
-		success : function message(data) {
+		contentType : 'application/json',
+		data:JSON.stringify(new obj(
+				window.sessionStorage.getItem("username"), //id
+				"", 
+				"",
+				""
+		)),
+		success : function output(data) {
 			$playlist1_dropdown.html('');
 			$.each(data.playlistCollection, function (index, value) {
 				$playlist1_dropdown.append('<option value='+value.playlist_id+'>' + value.playlist_id +', '+value.playlist_name+ '</option>');
@@ -136,7 +143,7 @@
 			var url = "rest/lib/playlist/tracks";
 			var obj1 = new obj(
 				document.getElementById("playlist1-dropdown").value, //id
-				"", 
+				window.sessionStorage.getItem("username"), 
 				"",
 				""
 			);
@@ -149,7 +156,7 @@
 				success : function output(jdata) {
 					var table = $('#myTable').dataTable();
 					table.fnClearTable();
-					$.each(jdata.trackCollection, function(index, value) {
+					$.each(jdata.collection, function(index, value) {
 			            table.dataTable().fnAddData([
 			                JSON.stringify(value.track_id),
 			                JSON.stringify(value.track_name),

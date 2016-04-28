@@ -15,19 +15,19 @@ import com.iTunes.backup.entities.Track;
 @Local
 public interface Main_DAO {
 
-	Collection<Playlist> GetPlaylists(int playlist_id);
+	Collection<Playlist> GetPlaylists(String user_name);
 
 	Collection<Playlist_Track_Link> getPlaylistTrackLink();
 
 	Collection<Track> getTrackList();
 
-	Collection<Playlist_Track_Link> getPlaylistTracks(int id);
+	Collection<Playlist_Track_Link> getPlaylistTracks(int id, String user_name);
 
 	String setPlaylistName(int id, String name);
 
-	String deleteTrack(int playlist_id, int track_id);
+	String deleteTrack(String user_name, int playlist_id, int track_id);
 
-	String deletePlaylist(int playlist_id);
+	String deletePlaylist(String user_name, int playlist_id);
 
 	String moveTrack(int from_playlist_id, int track_id, int to_playlist_id);
 

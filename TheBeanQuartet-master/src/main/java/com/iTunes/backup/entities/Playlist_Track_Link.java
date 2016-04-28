@@ -25,25 +25,48 @@ public class Playlist_Track_Link implements Serializable {
 	@Column(name = "playlist_id")
 	private Integer playlist_id;
 	
+	@Column(name = "user_id")
+	private Integer user_id;
+	@Column(name = "user_name")
+	private String user_name;
+	
 	@ManyToOne
-	@JoinColumn(name = "playlist_obj", referencedColumnName = "playlist_id")
+	@JoinColumn(name = "playlist_obj", referencedColumnName = "id")
 	private Playlist playlist;
 
 	@ManyToOne//name = java class
-	@JoinColumn(name = "track_obj", referencedColumnName = "track_id")
+	@JoinColumn(name = "track_obj", referencedColumnName = "id")
 	private Track track;
 
 
 
 	public Playlist_Track_Link() {}
 
-	public Playlist_Track_Link(Playlist playlist, Track track) {
+	public Playlist_Track_Link(int user_id,String user_name, Playlist playlist, Track track) {
 		this.playlist = playlist;
 		this.track = track;
-		
+		this.user_id = user_id;
+		this.user_name = user_name;
 		this.track_id = track.getTrack_id();
 		this.playlist_id = playlist.getPlaylist_id();
-		this.id = track.getTrack_id()+""+playlist.getPlaylist_id()+"";
+		this.id = user_id+""+track.getTrack_id()+""+playlist.getPlaylist_id()+"";
+	}
+	
+
+	public String getUser_name() {
+		return user_name;
+	}
+
+	public void setUser_name(String user_name) {
+		this.user_name = user_name;
+	}
+
+	public Integer getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(Integer user_id) {
+		this.user_id = user_id;
 	}
 
 	public String getId() {

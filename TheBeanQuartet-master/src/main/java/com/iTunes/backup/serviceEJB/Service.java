@@ -28,19 +28,19 @@ public interface Service {
 
 	public String addPlaylist_Track_link(List<Playlist_Track_Link> playlist_track_link);
 
-	public Collection<Playlist> GetPlaylists(int playlist_id);
+	public Collection<Playlist> GetPlaylists(String user_username);
 
 	public Collection<Playlist_Track_Link> getPlaylistTrackLink();
 
 	public Collection<Track> getTrackList();
 
-	public Collection<Playlist_Track_Link> getPlaylistTracks(int id);
+	public Collection<Playlist_Track_Link> getPlaylistTracks(int id, String user_name);
 
 	public String setPlaylistName(int id, String name);
 
-	public String deleteTrack(int playlist_id, int track_id);
+	public String deleteTrack(String user_name, int playlist_id, int track_id);
 
-	public String deletePlaylist(int playlist_id);
+	public String deletePlaylist(String user_name, int playlist_id);
 
 	public String moveTrack(int from_playlist_id, int track_id, int to_playlist_id);
 

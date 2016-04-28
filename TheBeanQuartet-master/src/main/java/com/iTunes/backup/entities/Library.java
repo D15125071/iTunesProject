@@ -22,6 +22,9 @@ public class Library implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@Column(name="id") 
+	private String id;
+	
 	@Column(name="library_id") 
 	private String library_id;
 	
@@ -56,6 +59,7 @@ public class Library implements Serializable {
 	public Library(String library_id, SysUser sysUser){
 		this.library_id=library_id;
 		this.sysUser=sysUser;
+		this.id = sysUser.getUser_id()+""+library_id;
 	}
 
 	

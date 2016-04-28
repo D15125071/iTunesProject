@@ -61,9 +61,9 @@ public class ServiceEJB implements Service{
 		return xmlDao.addPlaylist_Track_link(playlist_track_link);
 	}
 	@Override
-	public Collection<Playlist> GetPlaylists(int playlist_id) {
+	public Collection<Playlist> GetPlaylists(String user_name) {
 		// TODO Auto-generated method stub
-		return mainDao.GetPlaylists(playlist_id);
+		return mainDao.GetPlaylists(user_name);
 	}
 	@Override
 	public Collection<Playlist_Track_Link> getPlaylistTrackLink() {
@@ -74,8 +74,8 @@ public class ServiceEJB implements Service{
 		return mainDao.getTrackList();
 	}
 	@Override
-	public Collection<Playlist_Track_Link> getPlaylistTracks(int id) {
-		return mainDao.getPlaylistTracks(id);
+	public Collection<Playlist_Track_Link> getPlaylistTracks(int id, String user_name) {
+		return mainDao.getPlaylistTracks(id,user_name);
 	}
 	@Override
 	public String setPlaylistName(int id, String name) {
@@ -83,14 +83,14 @@ public class ServiceEJB implements Service{
 		return mainDao.setPlaylistName(id, name);
 	}
 	@Override
-	public String deleteTrack(int playlist_id, int track_id) {
+	public String deleteTrack(String user_name, int playlist_id, int track_id) {
 		// TODO Auto-generated method stub
-		return mainDao.deleteTrack(playlist_id, track_id);
+		return mainDao.deleteTrack(user_name,playlist_id, track_id);
 	}
 	@Override
-	public String deletePlaylist(int playlist_id) {
+	public String deletePlaylist(String user_name,int playlist_id) {
 		// TODO Auto-generated method stub
-		return mainDao.deletePlaylist(playlist_id);
+		return mainDao.deletePlaylist(user_name,playlist_id);
 	}
 	@Override
 	public String moveTrack(int from_playlist_id, int track_id, int to_playlist_id) {

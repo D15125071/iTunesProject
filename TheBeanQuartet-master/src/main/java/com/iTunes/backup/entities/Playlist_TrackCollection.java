@@ -15,10 +15,10 @@ public class Playlist_TrackCollection implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Collection<Playlist_Track_Link> wrapper;
 	
-	public Collection<Playlist_Track_Link> getTrackCollection() {
+	public Collection<Playlist_Track_Link> getCollection() {
 		return wrapper;
 	}
-	public void setTrackCollection(Collection<Playlist_Track_Link> tracks) {
+	public void setCollection(Collection<Playlist_Track_Link> tracks) {
 		this.wrapper = tracks;
 	}
 }

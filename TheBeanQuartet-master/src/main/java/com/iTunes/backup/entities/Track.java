@@ -23,6 +23,9 @@ public class Track implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(name = "id")
+	private String id;
+
 	@Column(name = "track_id")
 	private Integer track_id;
 	
@@ -73,6 +76,15 @@ public class Track implements Serializable{
 
 	public void setTrack_album(String track_album) {
 		this.track_album = track_album;
+	}
+	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(int user_id) {
+		this.id = user_id+""+track_id;
 	}
 
 	public Track() {}

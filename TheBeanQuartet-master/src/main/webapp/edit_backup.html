@@ -142,7 +142,7 @@
 			contentType : 'application/json',
 			data:JSON.stringify(obj1),
 			success : function output(jdata) {
-				$.each(jdata.trackCollection, function(index, value) {
+				$.each(jdata.collection, function(index, value) {
 					$track_dropdown.append('<option value='+value.track_id+'>'+value.track_id+', '+value.track_name+'</option>');
 			    });
 			},
@@ -152,10 +152,17 @@
 		return false;
 	}
 	$.ajax({
-		async : false,
-		type : 'GET',
+		async: false,
+		type : 'POST',
 		url : 'rest/lib/playlist/list',
-		success : function message(data) {
+		contentType : 'application/json',
+		data:JSON.stringify(new obj(
+				window.sessionStorage.getItem("username"), //id
+				"", 
+				"",
+				""
+		)),
+		success : function output(data) {
 			$playlist1_dropdown.html('');
 			$playlist2_dropdown.html('');
 			$.each(data.playlistCollection, function (index, value) {
