@@ -116,7 +116,7 @@ public class XmlParseRestService {
 				}
 			}
 			newTrack.setId(user_id);
-			System.out.println(newTrack.getId());
+			//System.out.println(newTrack.getId());
 			trackList.add(newTrack);
 		}
 		System.out.println(service.addTracks(trackList));
